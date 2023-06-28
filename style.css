@@ -115,13 +115,25 @@ background-color: #ececec;
 .buttons:hover {
     background-color: #f6f6f6;
 }
-.buttonNumber, .buttonPlusMinus, .buttonDecimal {
+.button-equal:hover {
+    background-color: #196aa7;
+}
+.button-number, .button-plus-minus, .button-decimal {
     background-color: #ffffff;
 }
-.buttonNumber, .buttonPlusMinus, .buttonDecimal:hover {
+.button-number, .button-plus-minus, .button-decimal:hover {
     background-color: #fcfcfc;
 }
-.buttonEqual {
+.button-equal {
     background-color: #005a9e;
     color: #ffffff;
+}
+.button-history{
+    border:none;
+    height: 30px;
+    width: 30px;
+    border-radius: 8%;
+}
+.button-history:hover {
+    background-color: #dfdfdf;
 }
