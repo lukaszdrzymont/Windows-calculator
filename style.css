@@ -53,6 +53,7 @@ main {
   align-items: center;
   display: flex;
   justify-content: space-between;
+  height: 42px;
   margin: 5px 5px 25px 5px;
 }
 .left-side-calculator-options {
@@ -110,7 +111,7 @@ background-color: #ececec;
 
   height: 44px;
   margin: 2px;
-  width: 75px;
+  width: 77px;
 }
 .buttons:hover {
     background-color: #f6f6f6;
