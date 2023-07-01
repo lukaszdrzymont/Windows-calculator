@@ -4,7 +4,7 @@
   padding: 0px;
 }
 body {
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   height: 100vh;
 }
 main {
@@ -54,7 +54,7 @@ main {
   display: flex;
   justify-content: space-between;
   height: 42px;
-  margin: 5px 5px 25px 5px;
+  margin: 5px 5px 5px 5px;
 }
 .left-side-calculator-options {
   display: flex;
@@ -74,67 +74,86 @@ main {
   font-weight: 500;
   margin-bottom: 8px;
 }
-.result-display {
+#memory-display {
+  background-color: #f3f3f3;
+  border: none;
+  color: gray;
+  display: flex;
+  font-size: 1.2rem;
+  margin: 8px;
+  width: 96%;
   text-align: right;
+}
+
+#result-display {
   background-color: #f3f3f3;
   border: none;
   display: flex;
   font-size: 3rem;
   font-weight: 600;
   height: 60px;
-  margin: 8px;
+  margin: 4px;
   width: 96%;
+  text-align: right;
+}
+#result-display:focus {
+  border: none;
+  outline: none;
 }
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
-input[type="number"] {
+input[type='number'] {
   -moz-appearance: textfield;
 }
 .memory-bar {
-  height: 35px;
+  height: 27px;
 }
 .buttons-window {
-background-color: #ececec;
+  background-color: #ececec;
   display: grid;
   grid-template-columns: 25% 25% 25% 25%;
   grid-template-rows: 16.66% 16.66% 16.66% 16.66% 16.66% 16.66%;
   text-align: center;
 }
 .buttons {
-    background-color: #f9f9f9;
-    border: 1px solid rgb(214, 214, 214);
-    border-radius: 5%;
-    font-weight: bold;
+  background-color: #f9f9f9;
+  border: 1px solid rgb(214, 214, 214);
+  border-radius: 5%;
+  font-weight: bold;
 
   height: 44px;
   margin: 2px;
   width: 77px;
 }
 .buttons:hover {
-    background-color: #f6f6f6;
+  background-color: #f6f6f6;
 }
 .button-equal:hover {
-    background-color: #196aa7;
+  background-color: #196aa7;
 }
-.button-number, .button-plus-minus, .button-decimal {
-    background-color: #ffffff;
+.button-number,
+.button-plus-minus,
+.button-decimal {
+  background-color: #ffffff;
 }
-.button-number, .button-plus-minus, .button-decimal:hover {
-    background-color: #fcfcfc;
+.button-number,
+.button-plus-minus,
+.button-decimal:hover {
+  background-color: #fcfcfc;
 }
 .button-equal {
-    background-color: #005a9e;
-    color: #ffffff;
+  background-color: #005a9e;
+  color: #ffffff;
 }
-.button-history{
-    border:none;
-    height: 30px;
-    width: 30px;
-    border-radius: 8%;
+.button-history {
+  border: none;
+  height: 30px;
+  width: 30px;
+  border-radius: 8%;
 }
 .button-history:hover {
-    background-color: #dfdfdf;
+  background-color: #dfdfdf;
 }
