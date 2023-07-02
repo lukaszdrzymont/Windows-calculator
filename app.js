@@ -9,6 +9,8 @@ const buttonPercent = document.querySelector('.button-percent');
 const buttonFraction = document.querySelector('.button-fraction');
 const buttonPower = document.querySelector('.button-power');
 const buttonSquareRoot = document.querySelector('.button-root');
+const buttonPlusMinus = document.querySelector('.button-plus-minus');
+const buttonDecimal = document.querySelector('.button-decimal');
 
 resultDisplay.addEventListener('click', (event) => {
   event.preventDefault();
@@ -49,4 +51,13 @@ buttonPower.addEventListener('click', () => {
 });
 buttonSquareRoot.addEventListener('click', () => {
   resultDisplay.value = Math.sqrt(resultDisplay.value);
+});
+buttonPlusMinus.addEventListener('click', () => {
+  resultDisplay.value = resultDisplay.value * -1;
+});
+buttonDecimal.addEventListener('click', () => {
+  if (!resultDisplay.value.includes('.')) {
+    resultDisplay.type = 'text';
+    resultDisplay.value = resultDisplay.value.concat('.');
+  }
 });
