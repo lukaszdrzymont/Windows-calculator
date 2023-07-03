@@ -11,12 +11,22 @@ const buttonPower = document.querySelector('.button-power');
 const buttonSquareRoot = document.querySelector('.button-root');
 const buttonPlusMinus = document.querySelector('.button-plus-minus');
 const buttonDecimal = document.querySelector('.button-decimal');
+const listOfOperators = document.querySelectorAll('.button-operator');
+const buttonEqual = document.querySelector('.button-equal');
+
+let newNumber = true;
+let result;
+let operator;
 
 resultDisplay.addEventListener('click', (event) => {
   event.preventDefault();
 });
 for (let i = 0; i < ListOfNumbers.length; i++) {
   ListOfNumbers[i].addEventListener('click', (event) => {
+    if (newNumber) {
+      resultDisplay.value = '';
+      newNumber = false;
+    }
     if (resultDisplay.value == 0) {
       resultDisplay.value = ListOfNumbers[i].innerText;
     } else {
@@ -56,8 +66,21 @@ buttonPlusMinus.addEventListener('click', () => {
   resultDisplay.value = resultDisplay.value * -1;
 });
 buttonDecimal.addEventListener('click', () => {
+  console.log(buttonOperator);
   if (!resultDisplay.value.includes('.')) {
     resultDisplay.type = 'text';
     resultDisplay.value = resultDisplay.value.concat('.');
   }
+});
+for (let i = 0; i < listOfOperators.length; i++) {
+  listOfOperators[i].addEventListener('click', () => {
+    memoryDisplay.value = resultDisplay.value.concat(
+      listOfOperators[i].innerText
+    );
+    newNumber = true;
+  });
+}
+buttonEqual.addEventListener('click', () => {
+  memoryDisplay.value = memoryDisplay.value.concat(resultDisplay.value);
+  resultDisplay.value = eval(memoryDisplay.value);
 });
