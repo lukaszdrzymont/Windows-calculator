@@ -15,29 +15,120 @@ const listOfOperators = document.querySelectorAll('.button-operator');
 const buttonEqual = document.querySelector('.button-equal');
 
 let newNumber = true;
-let result;
-let operator;
+let currentOperator;
+let memory;
+
+function operations(operator, leftOperand, rightOperand) {
+  let result;
+  if (operator == '*') {
+    result = leftOperand * rightOperand;
+  } else if (operator == '+') {
+    result = leftOperand + rightOperand;
+  } else if (operator == '-') {
+    result = leftOperand - rightOperand;
+  } else {
+    if (rightOperand == 0) {
+      result = 'Dividing by 0!';
+      memoryDisplay.value = 'Dividing by 0!';
+    } else {
+      result = leftOperand / rightOperand;
+    }
+  }
+  return result;
+}
+
+function fontSizing() {
+  switch (resultDisplay.value.length) {
+    case 11:
+      resultDisplay.style.fontSize = '2.84rem';
+      break;
+    case 12:
+      resultDisplay.style.fontSize = '2.68rem';
+      break;
+    case 13:
+      resultDisplay.style.fontSize = '2.52rem';
+      break;
+    case 14:
+      resultDisplay.style.fontSize = '2.34rem';
+      break;
+    case 15:
+      resultDisplay.style.fontSize = '2.2rem';
+      break;
+    case 16:
+      resultDisplay.style.fontSize = '2.1rem';
+      break;
+    case 17:
+      resultDisplay.style.fontSize = '2rem';
+      break;
+    case 18:
+      resultDisplay.style.fontSize = '1.9rem';
+      break;
+    case 19:
+      resultDisplay.style.fontSize = '1.8rem';
+      break;
+    default:
+      resultDisplay.style.fontSize = '3rem';
+  }
+}
 
 resultDisplay.addEventListener('click', (event) => {
   event.preventDefault();
 });
 for (let i = 0; i < ListOfNumbers.length; i++) {
   ListOfNumbers[i].addEventListener('click', (event) => {
-    if (newNumber) {
-      resultDisplay.value = '';
-      newNumber = false;
-    }
-    if (resultDisplay.value == 0) {
-      resultDisplay.value = ListOfNumbers[i].innerText;
-    } else {
-      resultDisplay.value = resultDisplay.value.concat(
-        ListOfNumbers[i].innerText
-      );
+    if (resultDisplay.value.length < 19) {
+      if (newNumber) {
+        resultDisplay.value = '';
+        newNumber = false;
+      }
+      if (resultDisplay.value == 0) {
+        resultDisplay.value = ListOfNumbers[i].innerText;
+      } else {
+        resultDisplay.value = resultDisplay.value.concat(
+          ListOfNumbers[i].innerText
+        );
+      }
+      fontSizing();
     }
   });
 }
+resultDisplay.addEventListener('input', () => {
+  fontSizing();
+});
+for (let i = 0; i < listOfOperators.length; i++) {
+  listOfOperators[i].addEventListener('click', () => {
+    if (
+      memoryDisplay.value != 0 &&
+      resultDisplay.value != 0 &&
+      newNumber == false
+    ) {
+      memoryDisplay.value = memoryDisplay.value.concat(resultDisplay.value);
+      resultDisplay.value = eval(memoryDisplay.value);
+      newNumber = true;
+    } else {
+      memoryDisplay.value = resultDisplay.value.concat(
+        listOfOperators[i].innerText
+      );
+      newNumber = true;
+    }
+    currentOperator = listOfOperators[i].innerText;
+  });
+}
 buttonPercent.addEventListener('click', () => {
-  console.log('%');
+  if (memoryDisplay.value != '0') {
+    if (
+      memoryDisplay.value.includes('*') ||
+      memoryDisplay.value.includes('/')
+    ) {
+      resultDisplay.value = Number(resultDisplay.value) * 0.01;
+    } else {
+      resultDisplay.value =
+        parseFloat(memoryDisplay.value) * 0.01 * resultDisplay.value;
+    }
+  } else {
+    memoryDisplay.value = '0';
+    resultDisplay.value = '0';
+  }
 });
 buttonC.addEventListener('click', () => {
   resultDisplay.value = 0;
@@ -51,36 +142,41 @@ buttonBackspace.addEventListener('click', () => {
     0,
     resultDisplay.value.length - 1
   );
+  fontSizing();
 });
 buttonFraction.addEventListener('click', () => {
   memoryDisplay.value = `1/(${resultDisplay.value})`;
   resultDisplay.value = 1 / resultDisplay.value;
+  fontSizing();
 });
 buttonPower.addEventListener('click', () => {
   resultDisplay.value = resultDisplay.value ** 2;
+  fontSizing();
 });
 buttonSquareRoot.addEventListener('click', () => {
   resultDisplay.value = Math.sqrt(resultDisplay.value);
+  fontSizing();
 });
 buttonPlusMinus.addEventListener('click', () => {
   resultDisplay.value = resultDisplay.value * -1;
 });
 buttonDecimal.addEventListener('click', () => {
-  console.log(buttonOperator);
   if (!resultDisplay.value.includes('.')) {
-    resultDisplay.type = 'text';
-    resultDisplay.value = resultDisplay.value.concat('.');
+    resultDisplay.value = resultDisplay.value + '.';
   }
 });
-for (let i = 0; i < listOfOperators.length; i++) {
-  listOfOperators[i].addEventListener('click', () => {
-    memoryDisplay.value = resultDisplay.value.concat(
-      listOfOperators[i].innerText
-    );
-    newNumber = true;
-  });
-}
+
 buttonEqual.addEventListener('click', () => {
+  let leftOperand = memoryDisplay.value.slice(
+    0,
+    memoryDisplay.value.indexOf(currentOperator)
+  );
+  console.log(leftOperand);
   memoryDisplay.value = memoryDisplay.value.concat(resultDisplay.value);
-  resultDisplay.value = eval(memoryDisplay.value);
+  resultDisplay.value = operations(
+    currentOperator,
+    leftOperand,
+    resultDisplay.value
+  );
+  fontSizing();
 });
