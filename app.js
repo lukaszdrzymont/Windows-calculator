@@ -16,22 +16,23 @@ const buttonEqual = document.querySelector('.button-equal');
 
 let newNumber = true;
 let currentOperator;
-let memory;
+let leftOperand;
+let rightOperand;
 
 function operations(operator, leftOperand, rightOperand) {
   let result;
   if (operator == '*') {
-    result = leftOperand * rightOperand;
+    result = Number(leftOperand) * Number(rightOperand);
   } else if (operator == '+') {
-    result = leftOperand + rightOperand;
+    result = Number(leftOperand) + Number(rightOperand);
   } else if (operator == '-') {
-    result = leftOperand - rightOperand;
+    result = Number(leftOperand) - Number(rightOperand);
   } else {
     if (rightOperand == 0) {
       result = 'Dividing by 0!';
       memoryDisplay.value = 'Dividing by 0!';
     } else {
-      result = leftOperand / rightOperand;
+      result = Number(leftOperand) / Number(rightOperand);
     }
   }
   return result;
@@ -102,8 +103,16 @@ for (let i = 0; i < listOfOperators.length; i++) {
       resultDisplay.value != 0 &&
       newNumber == false
     ) {
-      memoryDisplay.value = memoryDisplay.value.concat(resultDisplay.value);
-      resultDisplay.value = eval(memoryDisplay.value);
+      leftOperand = memoryDisplay.value.slice(
+        0,
+        memoryDisplay.value.indexOf(currentOperator)
+      );
+
+      resultDisplay.value = operations(
+        currentOperator,
+        leftOperand,
+        resultDisplay.value
+      );
       newNumber = true;
     } else {
       memoryDisplay.value = resultDisplay.value.concat(
@@ -145,9 +154,11 @@ buttonBackspace.addEventListener('click', () => {
   fontSizing();
 });
 buttonFraction.addEventListener('click', () => {
-  memoryDisplay.value = `1/(${resultDisplay.value})`;
-  resultDisplay.value = 1 / resultDisplay.value;
-  fontSizing();
+  if (resultDisplay.value != 0) {
+    memoryDisplay.value = `1/(${resultDisplay.value})`;
+    resultDisplay.value = 1 / resultDisplay.value;
+    fontSizing();
+  }
 });
 buttonPower.addEventListener('click', () => {
   resultDisplay.value = resultDisplay.value ** 2;
@@ -167,16 +178,27 @@ buttonDecimal.addEventListener('click', () => {
 });
 
 buttonEqual.addEventListener('click', () => {
-  let leftOperand = memoryDisplay.value.slice(
-    0,
-    memoryDisplay.value.indexOf(currentOperator)
-  );
-  console.log(leftOperand);
-  memoryDisplay.value = memoryDisplay.value.concat(resultDisplay.value);
-  resultDisplay.value = operations(
-    currentOperator,
-    leftOperand,
-    resultDisplay.value
-  );
+  if (newNumber) {
+    memoryDisplay.value = resultDisplay.value.concat(
+      memoryDisplay.value.slice(
+        memoryDisplay.value.indexOf(currentOperator + 1),
+        memoryDisplay.value.length
+      )
+    );
+    leftOperand = resultDisplay.value;
+    rightOperand = memoryDisplay.value.slice(
+      memoryDisplay.value.indexOf(currentOperator),
+      memoryDisplay.value.length
+    );
+  } else {
+    leftOperand = memoryDisplay.value.slice(
+      0,
+      memoryDisplay.value.indexOf(currentOperator)
+    );
+    rightOperand = resultDisplay.value;
+  }
+  resultDisplay.value = operations(currentOperator, leftOperand, rightOperand);
+  memoryDisplay.value = leftOperand + currentOperator + rightOperand;
+  newNumber = true;
   fontSizing();
 });
